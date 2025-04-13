@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Special+Gothic+Condensed+One&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-title: "Special Gothic Condensed One", "sans-serif";
+  --font-text: "Archivo Narrow", "sans-serif";
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
