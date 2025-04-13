@@ -26,8 +26,8 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-6 text-white bg-zinc-900">
-      <h1 className="text-5xl font-bold font-title">Buscador de CEP</h1>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-900 text-white">
+      <h1 className="font-title text-5xl font-bold">Buscador de CEP</h1>
 
       <div className="flex flex-col gap-2">
         <form
@@ -37,13 +37,13 @@ export function App() {
           <input
             type="text"
             placeholder="Ex: 00000-000"
-            className="p-2 rounded-lg border-2 outline-0 font-text hover:border-lime-300 focus:border-lime-300"
+            className="font-text rounded-lg border-2 p-2 outline-0 hover:border-lime-300 focus:border-lime-300"
             {...registerWithMask("zipcode", "99999-999", { required: true })}
           />
 
           <button
             type="submit"
-            className="p-2 rounded-lg bg-white text-black cursor-pointer"
+            className="cursor-pointer rounded-lg bg-white p-2 text-black"
           >
             <Search />
           </button>
@@ -53,7 +53,7 @@ export function App() {
           errors={errors}
           name="zipcode"
           render={({ message }) => (
-            <p className="text-sm text-red-500 ml-2">{message}</p>
+            <p className="ml-2 text-sm text-red-500">{message}</p>
           )}
         />
       </div>
