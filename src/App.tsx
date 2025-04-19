@@ -1,9 +1,17 @@
 import { ErrorMessage } from "@hookform/error-message"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Search } from "lucide-react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useHookFormMask } from "use-mask-input"
 import { z } from "zod"
+
+interface SearchZipCode {
+  bairro: string
+  logradouro: string
+  localidade: string
+  uf: string
+}
 
 const searchZipCodeSchema = z.object({
   zipcode: z.string().regex(/^\d{5}-\d{3}$/, "CEP inválido"),
@@ -16,13 +24,31 @@ export function App() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SearchZipCodeData>({
     resolver: zodResolver(searchZipCodeSchema),
   })
   const registerWithMask = useHookFormMask(register)
+  const [data, setData] = useState<SearchZipCode | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleSearchZipCode(data: SearchZipCodeData) {
-    console.log(data)
+  async function handleSearchZipCode(data: SearchZipCodeData) {
+    try {
+      const response = await fetch(
+        `https://viacep.com.br/ws/${data.zipcode}/json/`,
+      )
+      const json = await response.json()
+
+      if (json.erro) {
+        throw new Error("CEP não encontrado")
+      }
+
+      setData(json)
+    } catch (error: any) {
+      setError(error.message)
+    }
+
+    reset()
   }
 
   return (
@@ -57,6 +83,19 @@ export function App() {
           )}
         />
       </div>
+
+      {data && (
+        <div className="font-text flex flex-col items-center gap-2 rounded-lg border-2 px-14 py-6 hover:border-lime-300">
+          <p>
+            {data.logradouro} - {data.bairro}
+          </p>
+          <p>
+            {data.localidade} - {data.uf}
+          </p>
+        </div>
+      )}
+
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   )
 }
