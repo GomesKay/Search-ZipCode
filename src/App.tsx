@@ -44,7 +44,9 @@ export function App() {
       }
 
       setData(json)
+      setError(null)
     } catch (error: any) {
+      setData(null)
       setError(error.message)
     }
 
@@ -53,7 +55,9 @@ export function App() {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-900 text-white">
-      <h1 className="font-title text-5xl font-bold">Buscador de CEP</h1>
+      <h1 className="font-title text-5xl font-bold max-[375px]:text-4xl">
+        Buscador de CEP
+      </h1>
 
       <div className="flex flex-col gap-2">
         <form
@@ -63,7 +67,7 @@ export function App() {
           <input
             type="text"
             placeholder="Ex: 00000-000"
-            className="font-text rounded-lg border-2 p-2 outline-0 hover:border-lime-300 focus:border-lime-300"
+            className="font-text rounded-lg border-2 p-2 outline-0 hover:border-lime-300 focus:border-lime-300 max-[375px]:w-32"
             {...registerWithMask("zipcode", "99999-999", { required: true })}
           />
 
@@ -85,10 +89,12 @@ export function App() {
       </div>
 
       {data && (
-        <div className="font-text flex flex-col items-center gap-2 rounded-lg border-2 px-14 py-6 hover:border-lime-300">
-          <p>
-            {data.logradouro} - {data.bairro}
-          </p>
+        <div className="font-text flex flex-col items-center gap-2 rounded-lg border-2 px-14 py-6 hover:border-lime-300 max-[375px]:p-4">
+          <span className="flex items-center gap-2 max-[465px]:flex-col">
+            <p>{data.logradouro}</p>
+            <p className="max-[465px]:hidden">-</p>
+            <p>{data.bairro}</p>
+          </span>
           <p>
             {data.localidade} - {data.uf}
           </p>
